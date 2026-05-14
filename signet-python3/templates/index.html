@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signet Monitor</title>
+</head>
+<body>
+
+<h1>Bitcoin Dashboard</h1>
+
+<h3>Mempool</h3>
+<pre id="mempool"></pre>
+
+<h3>Blockchain</h3>
+<pre id="chain"></pre>
+
+<h3>Último bloco (ZMQ)</h3>
+<pre id="block"></pre>
+
+<script>
+async function load() {
+    let m = await fetch("/api/mempool").then(r => r.json());
+    let c = await fetch("/api/blockchain").then(r => r.json());
+    let b = await fetch("/api/block").then(r => r.json());
+
+    document.getElementById("mempool").textContent = JSON.stringify(m, null, 2);
+    document.getElementById("chain").textContent = JSON.stringify(c, null, 2);
+    document.getElementById("block").textContent = JSON.stringify(b, null, 2);
+}
+
+setInterval(load, 3000);
+load();
+</script>
+
+</body>
+</html>
